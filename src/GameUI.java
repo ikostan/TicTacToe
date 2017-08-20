@@ -1,4 +1,5 @@
 import javax.swing.JFrame;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JComboBox;
@@ -14,6 +15,8 @@ public class GameUI extends JFrame{
 	
 	private JButton btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8;
 	private JButton[] btnArray;
+	
+	private ImageIcon x, o;
 	
 	private final String TITLE ="Tic Tac Toe";
 	private final String START = "START";
@@ -45,7 +48,8 @@ public class GameUI extends JFrame{
 		getContentPane().setLayout(null);
 		
 		btnArray = new JButton[]{btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8};
-				
+			
+		setIcons();
 		setBtns();
 		setCloseBtn();
 		setResetBtn();
@@ -55,6 +59,13 @@ public class GameUI extends JFrame{
 		setScoreLbl();
 				
 		this.setVisible(true);
+	}
+	
+	//Set image icons
+	private void setIcons(){
+		
+		x = new ImageIcon(getClass().getResource("images/x.png"));
+		o = new ImageIcon(getClass().getResource("images/o.png"));
 	}
 	
 	
@@ -70,6 +81,7 @@ public class GameUI extends JFrame{
 			btn = new JButton("");
 			btn.setBounds(X, Y, btnSize, btnSize);
 			btn.setName(String.format("%d", i));
+			btn.setIcon(o);
 			btn.addActionListener(new ActionListener(){
 
 				@Override
@@ -103,7 +115,7 @@ public class GameUI extends JFrame{
 	private void setCloseBtn(){
 		
 		btnClose = new JButton(CLOSE);
-		btnClose.setBounds(270, 424, 90, 23);
+		btnClose.setBounds(270, 425, 90, 25);
 		btnClose.setName(CLOSE + " " + BTN);
 		btnClose.addActionListener(new ActionListener(){
 
@@ -133,7 +145,7 @@ public class GameUI extends JFrame{
 	private void setResetBtn(){
 			
 		btnReset = new JButton(RESET);
-		btnReset.setBounds(150, 424, 90, 23);
+		btnReset.setBounds(150, 425, 90, 25);
 		btnReset.setName(RESET  + " " + BTN);
 		btnReset.addActionListener(new ActionListener(){
 
@@ -163,7 +175,7 @@ public class GameUI extends JFrame{
 	private void setStartBtn(){
 		
 		btnStart = new JButton(START);
-		btnStart.setBounds(30, 424, 90, 23);
+		btnStart.setBounds(30, 425, 90, 25);
 		btnStart.setName(START + " " + BTN);
 		btnStart.addActionListener(new ActionListener(){
 
@@ -183,7 +195,7 @@ public class GameUI extends JFrame{
 	private void setComboBox(){
 		
 		comboBox = new JComboBox();
-		comboBox.setBounds(30, 390, 90, 20);
+		comboBox.setBounds(30, 390, 90, 25);
 		getContentPane().add(comboBox);
 	}
 		
@@ -202,7 +214,7 @@ public class GameUI extends JFrame{
 		lblScore = new JLabel(zeroLbl);
 		lblScore.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
-		lblScore.setBounds(270, 390, 90, 20);
+		lblScore.setBounds(270, 390, 90, 25);
 		getContentPane().add(lblScore);
 	}
 	
