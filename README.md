@@ -1,2 +1,2 @@
-# TicTacToe
-TicTacToe JAVA game
+# Tic Tac Toe
+Tic Tac Toe JAVA game
