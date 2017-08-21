@@ -42,6 +42,7 @@ public class GameUI extends JFrame{
 	
 	private boolean isGameStarted;
 	
+	private Automation automation;
 	
 	public GameUI() {
 		
@@ -51,7 +52,8 @@ public class GameUI extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle(LableList.TITLE);
 		getContentPane().setLayout(null);
-				
+			
+		automation = new Automation();
 		isGameStarted = false;
 		userScore = 0; 
 		compScore = 0;
@@ -593,15 +595,15 @@ public class GameUI extends JFrame{
 			
 		if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[0])){
 			
-			compEasy();
+			comp_moves = automation.compEasy(btnArray, comboBox, comp_moves, x, o);
 		}
 		else if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[1])){
 			
-			compMedium();
+			comp_moves = automation.compMedium(btnArray, comboBox, comp_moves, x, o);
 		}
 		else{
 			
-			compHard();
+			comp_moves = automation.compHard(btnArray, comboBox, comp_moves, x, o);
 		}
 			
 		if(testIsWin()){
@@ -619,65 +621,6 @@ public class GameUI extends JFrame{
 		}
 	}
 
-	//Automation - EASY level
-	private void compEasy(){
-		
-		boolean isMoved = false;
-		
-		while(!isMoved){
-				
-			Random rnd = new Random();
-			int i = rnd.nextInt(btnArray.size() - 1) + 1;
-			String name = btnArray.get(i).getName().toString();			
-				
-			if(!(name.equals("X") || name.equals("O"))){
-					
-				if(comboBox.getSelectedIndex() == 1){
-						
-					name = LableList.comboItems[2];
-					btnArray.get(i).setIcon(o);
-					System.out.println("Computer makes its move");
-				}
-				else if(comboBox.getSelectedIndex() == 2){
-						
-					name = LableList.comboItems[1];
-					btnArray.get(i).setIcon(x);
-					System.out.println("Computer makes its move");
-				}
-					
-				btnArray.get(i).setName(name);
-					
-				isMoved = true;
-				break;
-			}
-				
-		}
-	}
-
-	//Automation - MEDIUM level
-	private void compMedium() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	//Automation - HARD level
-	private void compHard() {
-
-		comboBox.setEnabled(false);
-		comboBox.setSelectedIndex(2);
-		
-		if(comp_moves == 0){
-			
-			btnArray.get(4).setIcon(x);
-			btnArray.get(4).setName(LableList.comboItems[1]);
-			comp_moves++;
-		}
-		else{
-			
-			
-		}
-		
-	}
 	
 	
 	//END OF CLASS
