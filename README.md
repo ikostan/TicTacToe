@@ -21,4 +21,7 @@ Tic Tac Toe, also known as "Noughts and Crosses" or "X's and O's", is a solved g
 
 ### Reference (Udacity website): https://classroom.udacity.com/courses/ud282/lessons/8186340458/concepts/77df3b5d-c8fd-4c98-a472-920d6f2de0dd
 ### Reference (Udacity/GitHub): https://github.com/udacity/ud282/tree/master/Project%201%20-%20TicTacToe/src/main/resources
+### Reference (How to Win at Tic-Tac-Toe): https://www.cs.jhu.edu/~jorgev/cs106/ttt.pdf
+### Reference (Tic-Tac-Toe Strategy): https://blog.ostermiller.org/tic-tac-toe-strategy
+### Reference (Winning Tic-tac-toe Strategies): http://www.instructables.com/id/Winning-tic-tac-toe-strategies/
 
