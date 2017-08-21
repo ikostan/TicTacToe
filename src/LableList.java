@@ -11,6 +11,7 @@ public class LableList {
 	static final String zeroLbl = "0:0";
 	
 	static final String[] comboItems = {"Select", "X", "O"};
+	static final String[] levelItems = {"easy", "medium", "hard"};
 	
 	static final String closeMessage = "Are you sure you want to exit?";
 	static final String resetMessage = "Are you sure you want to reset the game?";

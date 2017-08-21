@@ -52,17 +52,7 @@ public class GameUI extends JFrame{
 		userScore = 0; 
 		compScore = 0;
 		
-		setYouLbl();
-		setYouLbl();
-		setIcons();
-		setBtns();
-		setCloseBtn();
-		setResetBtn();
-		setStartBtn();
-		setComboBox();
-		setCheckBox();
-		setHeaderLbl();
-		setScoreLbl();
+		setGUI();
 				
 		this.setVisible(true);
 	}
@@ -72,6 +62,21 @@ public class GameUI extends JFrame{
 		
 		x = new ImageIcon(getClass().getResource("images/x.png"));
 		o = new ImageIcon(getClass().getResource("images/o.png"));
+	}
+	
+	private void setGUI(){
+		
+		setYouLbl();
+		setComboLevel();
+		setIcons();
+		setBtns();
+		setCloseBtn();
+		setResetBtn();
+		setStartBtn();
+		setComboBox();
+		setCheckBox();
+		setHeaderLbl();
+		setScoreLbl();
 	}
 	
 	//Create buttons
@@ -328,6 +333,7 @@ public class GameUI extends JFrame{
 		comboBox.setEnabled(true);
 		btnStart.setEnabled(true);
 		chckbxPreserve.setEnabled(true);
+		comboLevel.setEnabled(true);
 		isGameStarted = false;
 	}
 	
@@ -336,6 +342,7 @@ public class GameUI extends JFrame{
 		comboBox.setEnabled(false);
 		btnStart.setEnabled(false);
 		chckbxPreserve.setEnabled(false);
+		comboLevel.setEnabled(false);
 		isGameStarted = true;
 	}
 	
@@ -442,9 +449,9 @@ public class GameUI extends JFrame{
 	
 	private void setComboLevel(){
 		
-		comboLevel = new JComboBox(new Object[]{});
+		comboLevel = new JComboBox(LableList.levelItems);
 		comboLevel.setEnabled(true);
-		comboLevel.setBounds(150, 390, 90, 25);
+		comboLevel.setBounds(150, 420, 90, 25);
 		getContentPane().add(comboLevel);
 	}
 	
