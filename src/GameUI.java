@@ -64,6 +64,7 @@ public class GameUI extends JFrame{
 		o = new ImageIcon(getClass().getResource("images/o.png"));
 	}
 	
+	//Set all GUI objects
 	private void setGUI(){
 		
 		setYouLbl();
@@ -136,6 +137,7 @@ public class GameUI extends JFrame{
 		this.repaint();
 	}
 	
+	//Set action after button was clicked
 	private void processBtn(ActionEvent arg0){
 		
 		JButton btn = (JButton) arg0.getSource();
@@ -179,47 +181,7 @@ public class GameUI extends JFrame{
 		}
 	}
 	
-	//Computer makes its move
-	private void compGoes(){
-		
-		boolean isMoved = false;
-		
-		while(!isMoved){
-			
-			Random rnd = new Random();
-			int i = rnd.nextInt(btnArray.size() - 1) + 1;
-			String name = btnArray.get(i).getName().toString();			
-			
-			if(!(name.equals("X") || name.equals("O"))){
-				
-				if(comboBox.getSelectedIndex() == 1){
-					
-					name = LableList.comboItems[2];
-					btnArray.get(i).setIcon(o);
-					System.out.println("Computer makes its move");
-				}
-				else if(comboBox.getSelectedIndex() == 2){
-					
-					name = LableList.comboItems[1];
-					btnArray.get(i).setIcon(x);
-					System.out.println("Computer makes its move");
-				}
-				
-				btnArray.get(i).setName(name);
-				
-				isMoved = true;
-				break;
-			}
-			
-		}
-		
-		if(testIsWin()){
-			
-			info(LableList.WIN);
-			reset();		
-		}
-	}
-	
+	//Set button icon after user/computer clicks on it
 	private void setSingleBtn(JButton btn){
 		
 		btn.setName(applayName());
@@ -328,6 +290,7 @@ public class GameUI extends JFrame{
 		}				
 	}
 	
+	//Enable buttons
 	private void enableBtn(){
 		
 		comboBox.setEnabled(true);
@@ -337,6 +300,7 @@ public class GameUI extends JFrame{
 		isGameStarted = false;
 	}
 	
+	//Disable buttons
 	private void disableBtn(){
 		
 		comboBox.setEnabled(false);
@@ -371,24 +335,46 @@ public class GameUI extends JFrame{
 				
 				System.out.println(((JButton) arg0.getSource()).getName());
 
-				if(comboBox.getSelectedItem().toString() != LableList.comboItems[0]){
-						
+				if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[2])){
+					
+					comboBox.setEnabled(false);
+					comboBox.setSelectedIndex(2);
+					
 					disableBtn();
 					
-					
+					lblYou.setText("You: " + comboBox.getSelectedItem().toString());
+									
 					String btNames = "";
 					for(JButton btn : btnArray){
 						
 						btNames += btn.getName().toString() + " ";
 					}
-					System.out.println("All buttons names: " + btNames);
 					
+					System.out.println("All buttons names: " + btNames); // DEBUG
 				}
 				else{
+					
+					if(comboBox.getSelectedItem().toString() != LableList.comboItems[0]){
 						
-					comboBox.setEnabled(true);
-					chckbxPreserve.setEnabled(true);
-					info(LableList.comboMessage);
+						disableBtn();
+						
+						lblYou.setText("You: " + comboBox.getSelectedItem().toString());
+										
+						String btNames = "";
+						for(JButton btn : btnArray){
+							
+							btNames += btn.getName().toString() + " ";
+						}
+						
+						System.out.println("All buttons names: " + btNames); // DEBUG
+						
+					}
+					else{
+							
+						comboBox.setEnabled(true);
+						chckbxPreserve.setEnabled(true);
+						info(LableList.comboMessage);
+					}		
 				}												
 			}						
 		});
@@ -438,7 +424,7 @@ public class GameUI extends JFrame{
 		getContentPane().add(lblScore);	
 	}
 	
-
+	//You label
 	private void setYouLbl(){
 		
 		lblYou = new JLabel("You:");
@@ -447,6 +433,7 @@ public class GameUI extends JFrame{
 		getContentPane().add(lblYou);
 	}
 	
+	//Combo LEVEL: easy, medium, hard
 	private void setComboLevel(){
 		
 		comboLevel = new JComboBox(LableList.levelItems);
@@ -454,7 +441,6 @@ public class GameUI extends JFrame{
 		comboLevel.setBounds(150, 420, 90, 25);
 		getContentPane().add(comboLevel);
 	}
-	
 	
 	//TEST CASES
 	private boolean testIsWin(){
@@ -476,7 +462,35 @@ public class GameUI extends JFrame{
 				
 		return win;
 	}
+	
+	//Set score
+	private void setScore(String chr){
 		
+		if(comboBox.getSelectedItem().toString().equalsIgnoreCase(chr)){
+			
+			userScore++;
+		}
+		else{
+			
+			compScore++;
+		}
+		
+		lblScore.setText(String.format("%d:%d", userScore, compScore));
+		
+		if(userScore > compScore){
+			
+			lblScore.setBackground(Color.GREEN);
+		}
+		else if(userScore < compScore){
+			
+			lblScore.setBackground(Color.RED);
+		}
+		else{
+			
+			lblScore.setBackground(SystemColor.controlHighlight);
+		}
+	}
+	
 	//X axis
 	private boolean testXaxis(){
 		
@@ -488,8 +502,9 @@ public class GameUI extends JFrame{
 				btnArray.get(i).getName().toString().equals(btnArray.get(i+2).getName().toString())){
 						
 				win = true;
-				System.out.println("Button name: " + btnArray.get(i).getName().toString());
-				System.out.println("X axis wins");
+				setScore(btnArray.get(i).getName().toString());
+				System.out.println("Button name: " + btnArray.get(i).getName().toString()); //DEBUG
+				System.out.println("X axis wins"); //DEBUG
 				break;
 			}
 		}
@@ -508,6 +523,7 @@ public class GameUI extends JFrame{
 				btnArray.get(i).getName().toString().equals(btnArray.get(i+6).getName().toString())){
 				
 				win = true;
+				setScore(btnArray.get(i).getName().toString());
 				System.out.println("Button name: " + btnArray.get(i).getName().toString());
 				System.out.println("Y axis wins");
 				break;
@@ -527,6 +543,7 @@ public class GameUI extends JFrame{
 			btnArray.get(0).getName().toString().equals(btnArray.get(8).getName().toString())){
 				
 			win = true;
+			setScore(btnArray.get(0).getName().toString());
 			System.out.println("Button name: " + btnArray.get(0).getName().toString());
 			System.out.println("Diagonal axis wins");
 		}
@@ -536,6 +553,7 @@ public class GameUI extends JFrame{
 			btnArray.get(2).getName().toString().equals(btnArray.get(6).getName().toString())){
 						
 			win = true;
+			setScore(btnArray.get(2).getName().toString());
 			System.out.println("Button name: " + btnArray.get(2).getName().toString());
 			System.out.println("Diagonal axis wins");
 		}		
@@ -560,6 +578,76 @@ public class GameUI extends JFrame{
 		return allSet;
 	}
 
+	//Computer makes its move
+	private void compGoes(){
+			
+		if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[0])){
+			
+			compEasy();
+		}
+		else if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[1])){
+			
+			compMedium();
+		}
+		else{
+			
+			compHard();
+		}
+			
+		if(testIsWin()){
+				
+			info(LableList.WIN);
+			reset();		
+		}
+	}
+
+	//Automation - EASY level
+	private void compEasy(){
+		
+		boolean isMoved = false;
+		
+		while(!isMoved){
+				
+			Random rnd = new Random();
+			int i = rnd.nextInt(btnArray.size() - 1) + 1;
+			String name = btnArray.get(i).getName().toString();			
+				
+			if(!(name.equals("X") || name.equals("O"))){
+					
+				if(comboBox.getSelectedIndex() == 1){
+						
+					name = LableList.comboItems[2];
+					btnArray.get(i).setIcon(o);
+					System.out.println("Computer makes its move");
+				}
+				else if(comboBox.getSelectedIndex() == 2){
+						
+					name = LableList.comboItems[1];
+					btnArray.get(i).setIcon(x);
+					System.out.println("Computer makes its move");
+				}
+					
+				btnArray.get(i).setName(name);
+					
+				isMoved = true;
+				break;
+			}
+				
+		}
+	}
+
+	//Automation - MEDIUM level
+	private void compMedium() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	//Automation - HARD level
+	private void compHard() {
+
+		comboBox.setEnabled(false);
+		comboBox.setSelectedIndex(2);
+	}
 	
 	
 	//END OF CLASS
