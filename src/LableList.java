@@ -6,6 +6,7 @@ public class LableList {
 	static final String RESET = "RESET";
 	static final String CLOSE = "CLOSE";
 	static final String BTN = "button";
+	static final String GAMES = "Games:";
 	
 	static final String SCORE = "Score:";
 	static final String zeroLbl = "0:0";

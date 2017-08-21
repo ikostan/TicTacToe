@@ -25,7 +25,7 @@ public class GameUI extends JFrame{
 	private ImageIcon x, o;
 	
 	private JButton btnClose, btnReset, btnStart;
-	private JLabel lblScore, lblHeader, lblYou;
+	private JLabel lblScore, lblHeader, lblYou, lblGames;
 	
 	private JComboBox comboBox, comboLevel;
 	private JCheckBox chckbxPreserve;
@@ -35,6 +35,7 @@ public class GameUI extends JFrame{
 	private int X, Y;
 	
 	private final int MAX_MOVES = 5;
+	private int games;
 	private int comp_moves;
 	
 	private int userScore, compScore;
@@ -43,6 +44,7 @@ public class GameUI extends JFrame{
 	private boolean isGameStarted;
 	
 	private Automation automation;
+	private JLabel lblForGames;
 	
 	public GameUI() {
 		
@@ -58,6 +60,7 @@ public class GameUI extends JFrame{
 		userScore = 0; 
 		compScore = 0;
 		comp_moves = 0;
+		games = 0;
 		winner = "";
 		
 		setGUI();
@@ -76,6 +79,8 @@ public class GameUI extends JFrame{
 	private void setGUI(){
 		
 		setYouLbl();
+		setGamesLbl();
+		setCounter();
 		setComboLevel();
 		setIcons();
 		setBtns();
@@ -169,6 +174,8 @@ public class GameUI extends JFrame{
 				
 			if(testIsWin()){
 				
+				games++;
+				lblGames.setText(String.format("%d", games));
 				info(LableList.WIN);
 				reset();			
 			}
@@ -176,6 +183,8 @@ public class GameUI extends JFrame{
 				
 				if(isAllSet()){
 					
+					games++;
+					lblGames.setText(String.format("%d", games));
 					error(LableList.endOfGame);
 					reset();
 					enableBtn();
@@ -421,7 +430,7 @@ public class GameUI extends JFrame{
 		getContentPane().add(lblHeader);
 	}
 	
-	//Set "Score" label
+	//Set "GAMES COUNTER" label
 	private void setScoreLbl(){
 		
 		lblScore = new JLabel(LableList.zeroLbl);
@@ -430,8 +439,31 @@ public class GameUI extends JFrame{
 		lblScore.setOpaque(true); //Otherwise the background is not painted, since the default of opaque is false for JLabel.
 		lblScore.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
-		lblScore.setBounds(270, 11, 90, 25);
+		lblScore.setBounds(270, 10, 90, 25);
 		getContentPane().add(lblScore);	
+		
+	}
+	
+	//Set "Score" label
+	private void setGamesLbl(){
+			
+		lblForGames = new JLabel(LableList.GAMES);
+		lblForGames.setHorizontalAlignment(SwingConstants.LEFT);
+		lblForGames.setBounds(86, 10, 45, 25);
+		getContentPane().add(lblForGames);
+	}
+	
+	//Set "Score" label
+	private void setCounter(){
+		
+		lblGames = new JLabel(String.format("%d", games));
+		lblGames.setBackground(SystemColor.controlHighlight);
+		lblGames.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		lblGames.setOpaque(true); //Otherwise the background is not painted, since the default of opaque is false fo
+		lblGames.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblGames.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGames.setBounds(141, 10, 65, 25);
+		getContentPane().add(lblGames);
 	}
 	
 	//You label
@@ -611,10 +643,14 @@ public class GameUI extends JFrame{
 			if(comboBox.getSelectedItem().toString().equals(winner)){
 				
 				info(LableList.WIN);
+				games++;
+				lblGames.setText(String.format("%d", games));
 			}
 			else{
 				
 				info(LableList.LOST);
+				games++;
+				lblGames.setText(String.format("%d", games));
 			}
 
 			reset();		

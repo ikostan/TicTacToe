@@ -7,7 +7,7 @@ import javax.swing.JComboBox;
 public class Automation {
 
 	
-	//Automation - EASY level
+	//Automation - EASY level (random moves, no logic at all)
 	int compEasy(ArrayList<JButton> btnArray, JComboBox comboBox, int comp_moves, ImageIcon x, ImageIcon o){
 			
 		boolean isMoved = false;
@@ -70,6 +70,7 @@ public class Automation {
 		
 		return comp_moves;
 	}
+	
 	
 	//END OF CLASS
 }
