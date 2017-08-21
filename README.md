@@ -1,6 +1,6 @@
 # TicTacToe
 
-TicTacToe game - JAVA implementation.
+## TicTacToe game - JAVA implementation.
 
 ### Description:
 
