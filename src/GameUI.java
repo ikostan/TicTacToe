@@ -10,45 +10,57 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 import java.awt.SystemColor;
+import javax.swing.JCheckBox;
 
 
 public class GameUI extends JFrame{
 	
 	private JButton btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8;
-	private JButton[] btnArray;
+	private ArrayList<JButton> btnArray;
 	
 	private ImageIcon x, o;
 	
 	private JButton btnClose, btnReset, btnStart;
-	private JLabel lblScore, lblHeader;
-	private JComboBox comboBox;
+	private JLabel lblScore, lblHeader, lblYou;
+	
+	private JComboBox comboBox, comboLevel;
+	private JCheckBox chckbxPreserve;
 	
 	private final int btnSize = 90;
 	private final int btnSpace = 30;
 	private int X, Y;
 	
+	private int userScore, compScore;
+	
 	private boolean isGameStarted;
+	
 	
 	public GameUI() {
 		
-		this.setSize((4 * btnSpace) + (3 * btnSize), (4 * btnSpace) + (3 * btnSize) + (4 * btnSpace));
+		this.setSize((4 * btnSpace) + (3 * btnSize), (4 * btnSpace) + (3 * btnSize) + (5 * btnSpace));
 		setResizable(false);
 		getContentPane().setBackground(Color.LIGHT_GRAY);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle(LableList.TITLE);
 		getContentPane().setLayout(null);
-		
-		btnArray = new JButton[]{btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8};
-		
+				
 		isGameStarted = false;
+		userScore = 0; 
+		compScore = 0;
 		
+		setYouLbl();
+		setYouLbl();
 		setIcons();
 		setBtns();
 		setCloseBtn();
 		setResetBtn();
 		setStartBtn();
 		setComboBox();
+		setCheckBox();
 		setHeaderLbl();
 		setScoreLbl();
 				
@@ -62,40 +74,47 @@ public class GameUI extends JFrame{
 		o = new ImageIcon(getClass().getResource("images/o.png"));
 	}
 	
+	//Create buttons
+	private void createBtns(){
+		
+		btn0 = new JButton("");
+		btn1 = new JButton("");
+		btn2 = new JButton("");
+		btn3 = new JButton("");
+		btn4 = new JButton("");
+		btn5 = new JButton("");
+		btn6 = new JButton("");
+		btn7 = new JButton("");
+		btn8 = new JButton("");
+		
+		btnArray = new ArrayList<JButton>(Arrays.asList(btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8));
+	}
 	
 	//Set game buttons
 	private void setBtns(){
 		
-		X = btnSpace;
-		Y = btnSpace;
-		int i = 0;
+		createBtns();
 		
-		for(JButton btn : btnArray){
+		X = btnSpace;
+		Y = btnSpace * 2;
+		
+		for(int i = 0; i < btnArray.size(); i++){
 			
-			btn = new JButton("");
-			btn.setBounds(X, Y, btnSize, btnSize);
-			btn.setName(String.format("%d", i));
-			btn.setBackground(Color.WHITE);
-			btn.addActionListener(new ActionListener(){
+			btnArray.get(i).setBounds(X, Y, btnSize, btnSize);
+			btnArray.get(i).setName(String.format("%d", i));
+			btnArray.get(i).setBackground(Color.WHITE);
+			btnArray.get(i).setIcon(null);
+			btnArray.get(i).addActionListener(new ActionListener(){
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					
-					System.out.println(((JButton) arg0.getSource()).getName());
-					
-					if(!isGameStarted){
-						
-						info(LableList.startMessage);
-					}
-					else{
-						
-						//TODO:
-					}
-				}
-							
+					System.out.println("Button listener called");
+					processBtn(arg0);
+				}							
 			});
 			
-			getContentPane().add(btn);
+			getContentPane().add(btnArray.get(i));
 			
 			if(X == btnSize * 3){
 				
@@ -105,20 +124,122 @@ public class GameUI extends JFrame{
 			else{
 				
 				X += btnSize + btnSpace;				
-			}
-			
-			i++;		
+			}			
 		}
 		
+		this.validate();
 		this.repaint();
+	}
+	
+	private void processBtn(ActionEvent arg0){
+		
+		JButton btn = (JButton) arg0.getSource();
+		System.out.println("Button clicked: " + btn.getName());
+		
+		if(!isGameStarted){
+			
+			info(LableList.startMessage);
+		}
+		else{
+			
+			if(!(btn.getName().toString().equals("X") || 
+				btn.getName().toString().equals("O"))){
+									
+				setSingleBtn(btn);	
+			}
+			else{
+						
+				error(LableList.chooseAnotherBtn);
+			}								
+				
+			if(testIsWin()){
+				
+				info(LableList.WIN);
+				reset();			
+			}
+			else{
+				
+				if(isAllSet()){
+					
+					error(LableList.endOfGame);
+					reset();
+					enableBtn();
+				}
+				else{
+					
+					compGoes();
+				}
+				
+			}		
+		}
+	}
+	
+	//Computer makes its move
+	private void compGoes(){
+		
+		boolean isMoved = false;
+		
+		while(!isMoved){
+			
+			Random rnd = new Random();
+			int i = rnd.nextInt(btnArray.size() - 1) + 1;
+			String name = btnArray.get(i).getName().toString();			
+			
+			if(!(name.equals("X") || name.equals("O"))){
+				
+				if(comboBox.getSelectedIndex() == 1){
+					
+					name = LableList.comboItems[2];
+					btnArray.get(i).setIcon(o);
+					System.out.println("Computer makes its move");
+				}
+				else if(comboBox.getSelectedIndex() == 2){
+					
+					name = LableList.comboItems[1];
+					btnArray.get(i).setIcon(x);
+					System.out.println("Computer makes its move");
+				}
+				
+				btnArray.get(i).setName(name);
+				
+				isMoved = true;
+				break;
+			}
+			
+		}
+		
+		if(testIsWin()){
+			
+			info(LableList.WIN);
+			reset();		
+		}
+	}
+	
+	private void setSingleBtn(JButton btn){
+		
+		btn.setName(applayName());
+		
+		if(btn.getName().equals("X")){
+					
+			btn.setIcon(x);
+		}
+		else if(btn.getName().equals("O")){
+					
+			btn.setIcon(o);
+		}
+	}
+	
+	//Set name
+	private String applayName(){
 
+		return comboBox.getSelectedItem().toString();
 	}
 	
 	//Set CLOSE button
 	private void setCloseBtn(){
 		
 		btnClose = new JButton(LableList.CLOSE);
-		btnClose.setBounds(270, 425, 90, 25);
+		btnClose.setBounds(270, 460, 90, 25);
 		btnClose.setName(LableList.CLOSE + " " + LableList.BTN);
 		btnClose.addActionListener(new ActionListener(){
 
@@ -130,10 +251,11 @@ public class GameUI extends JFrame{
 			}
 						
 		});
+		
 		getContentPane().add(btnClose);
 	}
 	
-	//Close app
+	//Close application
 	protected void exit() {
 
 		int dialogButton = JOptionPane.showConfirmDialog(this, LableList.closeMessage, "Confirmation Dialog", JOptionPane.YES_NO_OPTION);
@@ -148,7 +270,7 @@ public class GameUI extends JFrame{
 	private void setResetBtn(){
 			
 		btnReset = new JButton(LableList.RESET);
-		btnReset.setBounds(150, 425, 90, 25);
+		btnReset.setBounds(150, 460, 90, 25);
 		btnReset.setName(LableList.RESET  + " " + LableList.BTN);
 		btnReset.addActionListener(new ActionListener(){
 
@@ -156,29 +278,65 @@ public class GameUI extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				
 				System.out.println(((JButton) arg0.getSource()).getName());
+				
 				if(isGameStarted){
 					
-					reset();
+					resetDialog();
 				} 
 				else{
 					
 					info(LableList.startMessage);
 				}
-			}
-						
+			}			
 		});
+		
 		getContentPane().add(btnReset);
 	}
 	
-	//Reset dialog
-	private void reset() {
+	//Show reset dialog
+	private void resetDialog(){
 		
 		int dialogButton = JOptionPane.showConfirmDialog(this, LableList.resetMessage, "Confirmation Dialog", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 		
 		if(dialogButton == 0){
 			
-			setBtns();
-		}		
+			reset();
+		}
+	}
+	
+	//Reset dialog
+	private void reset() {
+		
+		System.out.println("Reset all GUI objects");
+
+		for(int i = 0; i < btnArray.size(); i++){
+				
+			btnArray.get(i).setIcon(null);
+			btnArray.get(i).setName(String.format("%d", i));
+		}
+							
+		enableBtn();
+				
+		if(!chckbxPreserve.isSelected()){
+				
+			comboBox.setSelectedItem(LableList.comboItems[0]);
+		}				
+	}
+	
+	private void enableBtn(){
+		
+		comboBox.setEnabled(true);
+		btnStart.setEnabled(true);
+		chckbxPreserve.setEnabled(true);
+		isGameStarted = false;
+	}
+	
+	private void disableBtn(){
+		
+		comboBox.setEnabled(false);
+		btnStart.setEnabled(false);
+		chckbxPreserve.setEnabled(false);
+		isGameStarted = true;
 	}
 	
 	//Info dialog
@@ -186,12 +344,18 @@ public class GameUI extends JFrame{
 			
 		JOptionPane.showMessageDialog(this, message, "Information Dialog", JOptionPane.INFORMATION_MESSAGE);			
 	}
+	
+	//Error dialog
+	private void error(String message) {
+				
+			JOptionPane.showMessageDialog(this, message, "Information Dialog", JOptionPane.ERROR_MESSAGE);			
+	}
 
 	//Set START button
 	private void setStartBtn(){
 		
 		btnStart = new JButton(LableList.START);
-		btnStart.setBounds(30, 425, 90, 25);
+		btnStart.setBounds(30, 460, 90, 25);
 		btnStart.setName(LableList.START + " " + LableList.BTN);
 		btnStart.addActionListener(new ActionListener(){
 
@@ -199,30 +363,50 @@ public class GameUI extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				
 				System.out.println(((JButton) arg0.getSource()).getName());
-				
-				//TODO:
-				
-				if(isGameStarted){
+
+				if(comboBox.getSelectedItem().toString() != LableList.comboItems[0]){
+						
+					disableBtn();
 					
-					reset();
+					
+					String btNames = "";
+					for(JButton btn : btnArray){
+						
+						btNames += btn.getName().toString() + " ";
+					}
+					System.out.println("All buttons names: " + btNames);
+					
 				}
 				else{
-					
-					isGameStarted = true;
-				}
-			
-			}
 						
+					comboBox.setEnabled(true);
+					chckbxPreserve.setEnabled(true);
+					info(LableList.comboMessage);
+				}												
+			}						
 		});
+		
 		getContentPane().add(btnStart);
 	}
 	
 	//Set ComboBox
 	private void setComboBox(){
 		
-		comboBox = new JComboBox();
-		comboBox.setBounds(30, 390, 90, 25);
+		comboBox = new JComboBox(LableList.comboItems);
+		comboBox.setBounds(30, 420, 90, 25);
+		comboBox.setEnabled(true);
 		getContentPane().add(comboBox);
+	}
+	
+	//Set CheckBox
+	private void setCheckBox(){
+		
+		chckbxPreserve = new JCheckBox("preserve");
+		chckbxPreserve.setSelected(true);
+		chckbxPreserve.setBackground(Color.LIGHT_GRAY);
+		chckbxPreserve.setBounds(270, 420, 90, 25);
+		chckbxPreserve.setEnabled(true);
+		getContentPane().add(chckbxPreserve);
 	}
 		
 	//Set "Score" label
@@ -230,7 +414,7 @@ public class GameUI extends JFrame{
 		
 		lblHeader = new JLabel(LableList.SCORE);
 		lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHeader.setBounds(150, 390, 90, 25);
+		lblHeader.setBounds(215, 10, 45, 25);
 		getContentPane().add(lblHeader);
 	}
 	
@@ -243,11 +427,133 @@ public class GameUI extends JFrame{
 		lblScore.setOpaque(true); //Otherwise the background is not painted, since the default of opaque is false for JLabel.
 		lblScore.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
-		lblScore.setBounds(270, 390, 90, 25);
-		getContentPane().add(lblScore);
+		lblScore.setBounds(270, 11, 90, 25);
+		getContentPane().add(lblScore);	
+	}
+	
+
+	private void setYouLbl(){
+		
+		lblYou = new JLabel("You:");
+		lblYou.setHorizontalAlignment(SwingConstants.LEFT);
+		lblYou.setBounds(30, 10, 58, 25);
+		getContentPane().add(lblYou);
+	}
+	
+	private void setComboLevel(){
+		
+		comboLevel = new JComboBox(new Object[]{});
+		comboLevel.setEnabled(true);
+		comboLevel.setBounds(150, 390, 90, 25);
+		getContentPane().add(comboLevel);
 	}
 	
 	
+	//TEST CASES
+	private boolean testIsWin(){
+		
+		boolean win = false;
+				
+		if(testXaxis()){
+			
+			win = true;
+		}
+		else if(testYaxis()){
+			
+			win = true;
+		}
+		else if(testDiagonal()){
+			
+			win = true;
+		}
+				
+		return win;
+	}
+		
+	//X axis
+	private boolean testXaxis(){
+		
+		boolean win = false;
+				
+		for(int i = 0; i < btnArray.size(); i+=3){
+			
+			if(btnArray.get(i).getName().toString().equals(btnArray.get(i+1).getName().toString()) && 
+				btnArray.get(i).getName().toString().equals(btnArray.get(i+2).getName().toString())){
+						
+				win = true;
+				System.out.println("Button name: " + btnArray.get(i).getName().toString());
+				System.out.println("X axis wins");
+				break;
+			}
+		}
+		
+		return win;
+	}
 	
-	//END OF CLASS	
+	//Y axis
+	private boolean testYaxis(){
+			
+		boolean win = false;
+					
+		for(int i = 0; i < btnArray.size() / 3; i++){
+			
+			if(btnArray.get(i).getName().toString().equals(btnArray.get(i+3).getName().toString()) && 
+				btnArray.get(i).getName().toString().equals(btnArray.get(i+6).getName().toString())){
+				
+				win = true;
+				System.out.println("Button name: " + btnArray.get(i).getName().toString());
+				System.out.println("Y axis wins");
+				break;
+			}			
+		}
+				
+		return win;
+	}
+	
+	//Diagonals
+	private boolean testDiagonal(){
+		
+		boolean win = false;
+				
+		//BUTTONS: 0,4,8					
+		if(btnArray.get(0).getName().toString().equals(btnArray.get(4).getName().toString()) && 
+			btnArray.get(0).getName().toString().equals(btnArray.get(8).getName().toString())){
+				
+			win = true;
+			System.out.println("Button name: " + btnArray.get(0).getName().toString());
+			System.out.println("Diagonal axis wins");
+		}
+					
+		//BUTTONS: 2,4,6			
+		if(btnArray.get(2).getName().toString().equals(btnArray.get(4).getName().toString()) && 
+			btnArray.get(2).getName().toString().equals(btnArray.get(6).getName().toString())){
+						
+			win = true;
+			System.out.println("Button name: " + btnArray.get(2).getName().toString());
+			System.out.println("Diagonal axis wins");
+		}		
+						
+		return win;
+	}
+	
+	//Test is all buttons set
+	private boolean isAllSet(){
+		
+		boolean allSet = true;
+					
+		for(int i = 0; i < btnArray.size(); i++){
+			
+			if(!(btnArray.get(i).getName().toString().equals("X") || btnArray.get(i).getName().toString().equals("O"))){
+				
+				allSet = false;
+				break;
+			}			
+		}
+				
+		return allSet;
+	}
+
+	
+	
+	//END OF CLASS
 }
