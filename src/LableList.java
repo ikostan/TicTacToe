@@ -19,5 +19,6 @@ public class LableList {
 	static final String comboMessage = "Please select 'X' or 'O' ('X' goes first)";
 	static final String chooseAnotherBtn = "This button is set already. Please choose another one.";
 	static final String endOfGame = "No one wins. Reset the game.";
-	static final String WIN = "WIN WIN WIN WIN WIN WIN WIN";
+	static final String WIN = "Congrats!!!";
+	static final String LOST = "Sorry, you lost :-(";
 }

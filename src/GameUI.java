@@ -35,6 +35,7 @@ public class GameUI extends JFrame{
 	private int X, Y;
 	
 	private int userScore, compScore;
+	private String winner;
 	
 	private boolean isGameStarted;
 	
@@ -51,6 +52,7 @@ public class GameUI extends JFrame{
 		isGameStarted = false;
 		userScore = 0; 
 		compScore = 0;
+		winner = "";
 		
 		setGUI();
 				
@@ -468,10 +470,12 @@ public class GameUI extends JFrame{
 		
 		if(comboBox.getSelectedItem().toString().equalsIgnoreCase(chr)){
 			
+			winner = comboBox.getSelectedItem().toString();
 			userScore++;
 		}
 		else{
 			
+			winner = chr.toUpperCase();
 			compScore++;
 		}
 		
@@ -596,7 +600,15 @@ public class GameUI extends JFrame{
 			
 		if(testIsWin()){
 				
-			info(LableList.WIN);
+			if(comboBox.getSelectedItem().toString().equals(winner)){
+				
+				info(LableList.WIN);
+			}
+			else{
+				
+				info(LableList.LOST);
+			}
+
 			reset();		
 		}
 	}
