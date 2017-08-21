@@ -34,6 +34,9 @@ public class GameUI extends JFrame{
 	private final int btnSpace = 30;
 	private int X, Y;
 	
+	private final int MAX_MOVES = 5;
+	private int comp_moves;
+	
 	private int userScore, compScore;
 	private String winner;
 	
@@ -52,6 +55,7 @@ public class GameUI extends JFrame{
 		isGameStarted = false;
 		userScore = 0; 
 		compScore = 0;
+		comp_moves = 0;
 		winner = "";
 		
 		setGUI();
@@ -278,6 +282,8 @@ public class GameUI extends JFrame{
 		
 		System.out.println("Reset all GUI objects");
 
+		comp_moves = 0;
+		
 		for(int i = 0; i < btnArray.size(); i++){
 				
 			btnArray.get(i).setIcon(null);
@@ -659,6 +665,18 @@ public class GameUI extends JFrame{
 
 		comboBox.setEnabled(false);
 		comboBox.setSelectedIndex(2);
+		
+		if(comp_moves == 0){
+			
+			btnArray.get(4).setIcon(x);
+			btnArray.get(4).setName(LableList.comboItems[1]);
+			comp_moves++;
+		}
+		else{
+			
+			
+		}
+		
 	}
 	
 	

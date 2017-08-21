@@ -2,6 +2,12 @@
 
 TicTacToe game - JAVA implementation.
 
+### Description:
+
+Tic Tac Toe, also known as "Noughts and Crosses" or "X's and O's", is a solved game. This means there is a known, mathematically proven strategy to follow for the best result each game. In Tic Tac Toe, two players who follow the right strategy will always tie, with neither player winning. Against an opponent who doesn't know this strategy, however, you can still win whenever they make a mistake. Once your friends pick up on your strategy, try a more difficult version of the rules.
+
+### Source (wikiHow): http://www.wikihow.com/Win-at-Tic-Tac-Toe
+
 ### Screenshots:
 
 ![GUI](https://github.com/ikostan/TicTacToe/blob/master/src/images/screen1.PNG?raw=true "GUI screenshot")
