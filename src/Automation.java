@@ -290,6 +290,7 @@ public class Automation {
 						comp_moves++;
 						
 					}
+					
 				}
 				else{
 					
