@@ -25,10 +25,10 @@ public class GameUI extends JFrame{
 	private ImageIcon x, o;
 	
 	private JButton btnClose, btnReset, btnStart;
-	private JLabel lblScore, lblHeader, lblYou, lblGames;
+	private JLabel lblScore, lblHeader, lblYou, lblGames, lblForGames;
 	
 	private JComboBox comboBox, comboLevel;
-	private JCheckBox chckbxPreserve;
+	private JCheckBox chckbxPreserve, chkBoxRandom;
 	
 	private final int btnSize = 90;
 	private final int btnSpace = 30;
@@ -44,7 +44,6 @@ public class GameUI extends JFrame{
 	private boolean isGameStarted;
 	
 	private Automation automation;
-	private JLabel lblForGames;
 	
 	public GameUI() {
 		
@@ -88,6 +87,7 @@ public class GameUI extends JFrame{
 		setResetBtn();
 		setStartBtn();
 		setComboBox();
+		setRandom();
 		setCheckBox();
 		setHeaderLbl();
 		setScoreLbl();
@@ -285,6 +285,7 @@ public class GameUI extends JFrame{
 		if(dialogButton == 0){
 			
 			reset();
+			enableBtn();
 		}
 	}
 	
@@ -316,6 +317,7 @@ public class GameUI extends JFrame{
 		btnStart.setEnabled(true);
 		chckbxPreserve.setEnabled(true);
 		comboLevel.setEnabled(true);
+		chkBoxRandom.setEnabled(true);
 		isGameStarted = false;
 	}
 	
@@ -326,6 +328,7 @@ public class GameUI extends JFrame{
 		btnStart.setEnabled(false);
 		chckbxPreserve.setEnabled(false);
 		comboLevel.setEnabled(false);
+		chkBoxRandom.setEnabled(false);
 		isGameStarted = true;
 	}
 	
@@ -353,27 +356,14 @@ public class GameUI extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				
 				System.out.println(((JButton) arg0.getSource()).getName());
-
-				if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[2])){
+				
+				if(!isGameStarted){
 					
-					comboBox.setEnabled(false);
-					comboBox.setSelectedIndex(2);
-					
-					disableBtn();
-					
-					lblYou.setText("You: " + comboBox.getSelectedItem().toString());
-									
-					String btNames = "";
-					for(JButton btn : btnArray){
+					if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[3])){
 						
-						btNames += btn.getName().toString() + " ";
-					}
-					
-					System.out.println("All buttons names: " + btNames); // DEBUG
-				}
-				else{
-					
-					if(comboBox.getSelectedItem().toString() != LableList.comboItems[0]){
+						isGameStarted = true;
+						comboBox.setEnabled(false);
+						comboBox.setSelectedIndex(2);
 						
 						disableBtn();
 						
@@ -387,15 +377,67 @@ public class GameUI extends JFrame{
 						
 						System.out.println("All buttons names: " + btNames); // DEBUG
 						
+						compGoes();
 					}
 					else{
+						
+						if(comboBox.getSelectedItem().toString() != LableList.comboItems[0] && !chkBoxRandom.isSelected()){
 							
-						comboBox.setEnabled(true);
-						chckbxPreserve.setEnabled(true);
-						info(LableList.comboMessage);
-					}		
-				}												
-			}						
+							isGameStarted = true;
+							disableBtn();
+							
+							lblYou.setText("You: " + comboBox.getSelectedItem().toString());
+											
+							String btNames = "";
+							for(JButton btn : btnArray){
+								
+								btNames += btn.getName().toString() + " ";
+							}
+							
+							System.out.println("All buttons names: " + btNames); // DEBUG
+							
+							if(comboBox.getSelectedIndex() == 2){
+								
+								compGoes();
+							}
+							
+						}
+						else{
+							
+							if(chkBoxRandom.isSelected()){
+									
+								isGameStarted = true;
+								Random rnd = new Random();
+								int randomNum = rnd.nextInt(2);
+								System.out.println("Random number (randomize is selected): " + randomNum);
+								
+								comboBox.setSelectedIndex(randomNum + 1);
+								comboBox.setEnabled(false);
+								
+								lblYou.setText("You: " + comboBox.getSelectedItem().toString());
+								
+								if(comboBox.getSelectedIndex() == 2){
+									
+									compGoes();
+								}
+								
+							}
+							else{
+								
+								comboBox.setEnabled(true);
+								chckbxPreserve.setEnabled(true);
+								info(LableList.comboMessage);
+							}
+							
+						}		
+					}												
+				}			
+				else{
+					
+					error(LableList.gameIsStarted);
+				}
+
+			}				
 		});
 		
 		getContentPane().add(btnStart);
@@ -416,7 +458,7 @@ public class GameUI extends JFrame{
 		chckbxPreserve = new JCheckBox("preserve");
 		chckbxPreserve.setSelected(true);
 		chckbxPreserve.setBackground(Color.LIGHT_GRAY);
-		chckbxPreserve.setBounds(270, 420, 90, 25);
+		chckbxPreserve.setBounds(270, 428, 90, 25);
 		chckbxPreserve.setEnabled(true);
 		getContentPane().add(chckbxPreserve);
 	}
@@ -440,8 +482,18 @@ public class GameUI extends JFrame{
 		lblScore.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScore.setBounds(270, 10, 90, 25);
-		getContentPane().add(lblScore);	
+		getContentPane().add(lblScore);		
+	}
+	
+	//Set "RANDOMIZE" check-box
+	private void setRandom(){
 		
+		chkBoxRandom = new JCheckBox("randonize");
+		chkBoxRandom.setSelected(false);
+		chkBoxRandom.setEnabled(true);
+		chkBoxRandom.setBackground(Color.LIGHT_GRAY);
+		chkBoxRandom.setBounds(270, 400, 90, 25);
+		getContentPane().add(chkBoxRandom);
 	}
 	
 	//Set "Score" label
@@ -626,16 +678,20 @@ public class GameUI extends JFrame{
 	private void compGoes(){
 			
 		if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[0])){
-			
+			//EASY
 			comp_moves = automation.compEasy(btnArray, comboBox, comp_moves, x, o);
 		}
 		else if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[1])){
-			
+			//MEDIUM
 			comp_moves = automation.compMedium(btnArray, comboBox, comp_moves, x, o);
 		}
-		else{
-			
+		else if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[2])){
+			//HARD
 			comp_moves = automation.compHard(btnArray, comboBox, comp_moves, x, o);
+		}
+		else{
+			//CRAZY
+			comp_moves = automation.compCrazy(btnArray, comboBox, chkBoxRandom, comp_moves, x, o);
 		}
 			
 		if(testIsWin()){
@@ -654,6 +710,14 @@ public class GameUI extends JFrame{
 			}
 
 			reset();		
+		}
+		else{
+			
+			if(isAllSet()){
+				
+				error(LableList.endOfGame);
+				reset();
+			}			
 		}
 	}
 
