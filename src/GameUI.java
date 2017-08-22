@@ -359,7 +359,7 @@ public class GameUI extends JFrame{
 				
 				if(!isGameStarted){
 					
-					if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[3])){
+					if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[2])){
 						
 						isGameStarted = true;
 
@@ -384,12 +384,12 @@ public class GameUI extends JFrame{
 					}
 					else{
 						
-						if((comboBox.getSelectedItem().toString() != LableList.comboItems[0] && !chkBoxRandom.isSelected()) || comboLevel.getSelectedIndex() == 2 ){
+						if((comboBox.getSelectedItem().toString() != LableList.comboItems[0] && !chkBoxRandom.isSelected()) || comboLevel.getSelectedIndex() == 1 ){
 							
 							isGameStarted = true;
 							disableBtn();
 							
-							if(comboLevel.getSelectedIndex() == 2){
+							if(comboLevel.getSelectedIndex() == 1){
 								
 								comboBox.setEnabled(false);
 								chkBoxRandom.setSelected(true);
@@ -704,15 +704,15 @@ public class GameUI extends JFrame{
 			//EASY
 			comp_moves = automation.compEasy(btnArray, comboBox, comp_moves, x, o);
 		}
-		else if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[1])){
+		//else if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[1])){
 			//MEDIUM
-			comp_moves = automation.compMedium(btnArray, comboBox, comp_moves, x, o);
-		}
-		else if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[2])){
+			//comp_moves = automation.compMedium(btnArray, comboBox, comp_moves, x, o);
+		//}
+		else if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[1])){
 			//HARD
 			comp_moves = automation.compHard(btnArray, comboBox, comp_moves, x, o);
 		}
-		else{
+		else if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[2])){
 			//CRAZY
 			comp_moves = automation.compCrazy(btnArray, comboBox, comp_moves, x, o);
 		}

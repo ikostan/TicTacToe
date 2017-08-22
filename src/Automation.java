@@ -86,29 +86,216 @@ public class Automation {
 				log(method, comp_moves, i);
 				comp_moves++;
 			}
-			else if(btnArray.get(2).getIcon() == null){
+			else if(btnArray.get(4).getIcon() == null){
 				
-				int i = 2;
-				btnArray.get(2).setIcon(compIcon);
-				btnArray.get(2).setName(compName);
+				int i = 4;
+				btnArray.get(i).setIcon(compIcon);
+				btnArray.get(i).setName(compName);
 				log(method, comp_moves, i);
 				comp_moves++;
 			}
 			
 		}
 		else if(comp_moves == 1){
-				
-			error(method, comp_moves);
 			
+			if(compIcon == x){
+				
+				comp_moves = compCrazy(btnArray, comboBox, comp_moves, x, o);
+			}
+			else if(compIcon == o){
+				
+				if(btnArray.get(0).getIcon() == userIcon &&
+					btnArray.get(6).getIcon() == userIcon &&
+					btnArray.get(4).getIcon() == compIcon && 
+					btnArray.get(3).getIcon() == null){ //Case #
+						
+						int i = 3;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+				}
+				else if(btnArray.get(0).getIcon() == userIcon &&
+						btnArray.get(2).getIcon() == userIcon &&
+						btnArray.get(4).getIcon() == compIcon && 
+						btnArray.get(1).getIcon() == null){ //Case #
+						
+						int i = 1;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+				}
+				else if(btnArray.get(0).getIcon() == userIcon &&
+						btnArray.get(1).getIcon() == userIcon &&
+						btnArray.get(4).getIcon() == compIcon && 
+						btnArray.get(2).getIcon() == null){ //Case #
+						
+						int i = 2;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+				}
+				else{
+				
+					error(method, comp_moves);
+				}
+			}
 		}
 		else if(comp_moves == 2){
 	
-			error(method, comp_moves);
+			if(compIcon == x){
+				
+				comp_moves = compCrazy(btnArray, comboBox, comp_moves, x, o);
+			}
+			else if(compIcon == o){
+				
+				if(btnArray.get(0).getIcon() == userIcon &&
+						btnArray.get(6).getIcon() == userIcon &&
+						btnArray.get(4).getIcon() == compIcon && 
+						btnArray.get(3).getIcon() == compIcon &&
+						(btnArray.get(1).getIcon() == null && btnArray.get(7).getIcon() == null)){ //Case #
 					
+					if(btnArray.get(1).getIcon() == null){
+						
+						int i = 1;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+					}
+					else if(btnArray.get(7).getIcon() == null){
+						
+						int i = 7;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+					}					
+
+						
+				}
+				else if(btnArray.get(0).getIcon() == userIcon &&
+						btnArray.get(2).getIcon() == userIcon &&
+						btnArray.get(4).getIcon() == compIcon && 
+						btnArray.get(1).getIcon() == compIcon){ //Case #
+							
+					if(btnArray.get(3).getIcon() == null){
+						
+						int i = 3;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+					}
+					else if(btnArray.get(5).getIcon() == null){
+						
+						int i = 5;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+					}
+						
+				}
+				else if(btnArray.get(0).getIcon() == userIcon &&
+						btnArray.get(1).getIcon() == userIcon &&
+						btnArray.get(4).getIcon() == compIcon && 
+						btnArray.get(2).getIcon() == compIcon){ //Case #
+						
+					
+					if(btnArray.get(6).getIcon() == null){
+						
+						int i = 2;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+						
+					}
+					else if(btnArray.get(3).getIcon() == null){
+						
+						int i = 3;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+						
+					}
+						
+				}
+				else{
+					
+					error(method, comp_moves);
+				}			
+			}		
 		}
 		else if(comp_moves == 3){
 						
-			error(method, comp_moves);			
+			if(compIcon == x){
+				
+				comp_moves = compCrazy(btnArray, comboBox, comp_moves, x, o);
+			}
+			else if(compIcon == o){
+				
+				if(btnArray.get(0).getIcon() == userIcon &&
+						btnArray.get(6).getIcon() == userIcon &&
+						btnArray.get(4).getIcon() == compIcon && 
+						btnArray.get(3).getIcon() == compIcon &&
+						(btnArray.get(7).getIcon() == null || btnArray.get(2).getIcon() == null || btnArray.get(8).getIcon() == null)){ //Case #
+					
+					if(btnArray.get(6).getIcon() == userIcon && btnArray.get(7).getIcon() == userIcon && btnArray.get(8).getIcon() == null){
+						
+						int i = 8;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+					}
+					else if(btnArray.get(7).getIcon() == null){
+						
+						int i = 7;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+					}					
+
+						
+				}
+				else if(btnArray.get(0).getIcon() == userIcon &&
+						btnArray.get(2).getIcon() == userIcon &&
+						btnArray.get(5).getIcon() == userIcon &&
+						btnArray.get(1).getIcon() == compIcon && 
+						btnArray.get(4).getIcon() == compIcon &&
+						btnArray.get(3).getIcon() == compIcon){ //Case #
+						
+					
+					if(btnArray.get(7).getIcon() == null){
+						
+						int i = 7;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+						
+					}
+					else if(btnArray.get(8).getIcon() == null){
+						
+						int i = 8;
+						btnArray.get(i).setIcon(compIcon);
+						btnArray.get(i).setName(compName);
+						log(method, comp_moves, i);
+						comp_moves++;
+						
+					}
+				}
+				else{
+					
+					error(method, comp_moves);
+				}	
+			}
 			
 		}
 		else if(comp_moves == 4){
@@ -136,16 +323,12 @@ public class Automation {
 					}
 				}
 			}
-			else{
-				
-				error(method, comp_moves);
-			}			
-			
-		}
+		}	
 		else{
 			
 			error(method, comp_moves);
 		}
+		
 		
 		return comp_moves;
 	}
@@ -289,13 +472,25 @@ public class Automation {
 				btnArray.get(6).getIcon() == compIcon &&
 				btnArray.get(1).getIcon() == userIcon &&
 				btnArray.get(3).getIcon() == userIcon &&
-				btnArray.get(4).getIcon() == null){ //Case #0
+				(btnArray.get(4).getIcon() == null || btnArray.get(3).getIcon() == null)){ //Case #0
 				
-				int i = 4;
-				btnArray.get(i).setIcon(compIcon);
-				btnArray.get(i).setName(compName);
-				log(method, comp_moves, i);
-				comp_moves++;
+				if(btnArray.get(4).getIcon() == null){
+					
+					int i = 4;
+					btnArray.get(i).setIcon(compIcon);
+					btnArray.get(i).setName(compName);
+					log(method, comp_moves, i);
+					comp_moves++;
+				}
+				else if(btnArray.get(3).getIcon() == null){
+					
+					int i = 3;
+					btnArray.get(i).setIcon(compIcon);
+					btnArray.get(i).setName(compName);
+					log(method, comp_moves, i);
+					comp_moves++;
+				}
+				
 			}
 			else if(btnArray.get(0).getIcon() == compIcon && 
 					btnArray.get(8).getIcon() == compIcon && 
@@ -424,6 +619,18 @@ public class Automation {
 					btnArray.get(7).getIcon() == null){ //Case #11
 				
 				int i = 7;
+				btnArray.get(i).setIcon(compIcon);
+				btnArray.get(i).setName(compName);
+				log(method, comp_moves, i);
+				comp_moves++;
+			}
+			else if(btnArray.get(0).getIcon() == compIcon && 
+					btnArray.get(8).getIcon() == compIcon && 
+					btnArray.get(4).getIcon() == userIcon &&
+					btnArray.get(7).getIcon() == userIcon &&
+					btnArray.get(1).getIcon() == null){ //Case #12
+				
+				int i = 1;
 				btnArray.get(i).setIcon(compIcon);
 				btnArray.get(i).setName(compName);
 				log(method, comp_moves, i);
@@ -707,7 +914,7 @@ public class Automation {
 					btnArray.get(8).getIcon() == compIcon &&
 					btnArray.get(7).getIcon() == compIcon &&
 					btnArray.get(4).getIcon() == userIcon &&
-					(btnArray.get(6).getIcon() == userIcon || btnArray.get(2).getIcon() == userIcon || btnArray.get(3).getIcon() == userIcon|| btnArray.get(5).getIcon() == userIcon) &&
+					(btnArray.get(6).getIcon() == userIcon || btnArray.get(2).getIcon() == userIcon || btnArray.get(3).getIcon() == userIcon || btnArray.get(5).getIcon() == userIcon) &&
 					btnArray.get(1).getIcon() == userIcon){ //Case #11
 
 				if(btnArray.get(6).getIcon() == null){
@@ -726,6 +933,31 @@ public class Automation {
 					log(method, comp_moves, i);
 					comp_moves++;
 				}
+				
+			}
+			else if(btnArray.get(0).getIcon() == compIcon && 
+					btnArray.get(1).getIcon() == compIcon &&
+					btnArray.get(8).getIcon() == compIcon && 
+					btnArray.get(2).getIcon() == userIcon &&
+					btnArray.get(4).getIcon() == userIcon &&
+					btnArray.get(7).getIcon() == userIcon){ //Case #12
+				
+				if(btnArray.get(6).getIcon() == null){
+					
+					int i = 6;
+					btnArray.get(i).setIcon(compIcon);
+					btnArray.get(i).setName(compName);
+					log(method, comp_moves, i);
+					comp_moves++;
+				}
+				else if(btnArray.get(3).getIcon() == null){
+					
+					int i = 3;
+					btnArray.get(i).setIcon(compIcon);
+					btnArray.get(i).setName(compName);
+					log(method, comp_moves, i);
+					comp_moves++;
+				}				
 				
 			}
 			else{

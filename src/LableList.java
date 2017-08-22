@@ -12,7 +12,7 @@ public class LableList {
 	static final String zeroLbl = "0:0";
 	
 	static final String[] comboItems = {"Select", "X", "O"};
-	static final String[] levelItems = {"easy", "medium", "hard", "crazy"};
+	static final String[] levelItems = {"easy", "hard", "crazy"};
 	
 	static final String gameIsStarted = "Game is already started. Please make your move.";
 	static final String closeMessage = "Are you sure you want to exit?";
