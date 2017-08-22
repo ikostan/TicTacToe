@@ -362,7 +362,10 @@ public class GameUI extends JFrame{
 					if(comboLevel.getSelectedItem().toString().equals(LableList.levelItems[3])){
 						
 						isGameStarted = true;
+
 						comboBox.setEnabled(false);
+						chkBoxRandom.setSelected(false);
+						chkBoxRandom.setEnabled(false);
 						comboBox.setSelectedIndex(2);
 						
 						disableBtn();
@@ -381,25 +384,45 @@ public class GameUI extends JFrame{
 					}
 					else{
 						
-						if(comboBox.getSelectedItem().toString() != LableList.comboItems[0] && !chkBoxRandom.isSelected()){
+						if((comboBox.getSelectedItem().toString() != LableList.comboItems[0] && !chkBoxRandom.isSelected()) || comboLevel.getSelectedIndex() == 2 ){
 							
 							isGameStarted = true;
 							disableBtn();
 							
-							lblYou.setText("You: " + comboBox.getSelectedItem().toString());
-											
-							String btNames = "";
-							for(JButton btn : btnArray){
+							if(comboLevel.getSelectedIndex() == 2){
 								
-								btNames += btn.getName().toString() + " ";
-							}
-							
-							System.out.println("All buttons names: " + btNames); // DEBUG
-							
-							if(comboBox.getSelectedIndex() == 2){
+								comboBox.setEnabled(false);
+								chkBoxRandom.setSelected(true);
+								chkBoxRandom.setEnabled(false);
 								
-								compGoes();
+								Random rnd = new Random();
+								int index = rnd.nextInt(2) + 1;								
+								comboBox.setSelectedIndex(index);								
+								lblYou.setText("You: " + comboBox.getSelectedItem().toString());
+								
+								if(comboBox.getSelectedIndex() == 2){
+									
+									compGoes();
+								}
+
 							}
+							else{
+										
+								lblYou.setText("You: " + comboBox.getSelectedItem().toString());
+								
+								String btNames = "";
+								for(JButton btn : btnArray){
+									
+									btNames += btn.getName().toString() + " ";
+								}
+								
+								System.out.println("All buttons names: " + btNames); // DEBUG
+								
+								if(comboBox.getSelectedIndex() == 2){
+									
+									compGoes();
+								}
+							}						
 							
 						}
 						else{
@@ -691,7 +714,7 @@ public class GameUI extends JFrame{
 		}
 		else{
 			//CRAZY
-			comp_moves = automation.compCrazy(btnArray, comboBox, chkBoxRandom, comp_moves, x, o);
+			comp_moves = automation.compCrazy(btnArray, comboBox, comp_moves, x, o);
 		}
 			
 		if(testIsWin()){
