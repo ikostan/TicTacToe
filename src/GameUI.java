@@ -10,6 +10,9 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -69,9 +72,24 @@ public class GameUI extends JFrame{
 	
 	//Set image icons
 	private void setIcons(){
+	
+		try {
+			
+			String location = this.getClass().getClassLoader().getResource("").getPath();		
+			System.out.println("PATH: " + location);
+			
+			x = new ImageIcon(getClass().getResource("images/X.png"));
+			System.out.println("PATH x.png: " + getClass().getResource("images/X.png"));
+			
+			o = new ImageIcon(getClass().getResource("images/O.png"));
+			System.out.println("PATH o.png: " + getClass().getResource("images/O.png"));
+			
+		} 
+		catch (Exception e) {
+
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);			
+		}
 		
-		x = new ImageIcon(getClass().getResource("images/x.png"));
-		o = new ImageIcon(getClass().getResource("images/o.png"));
 	}
 	
 	//Set all GUI objects
